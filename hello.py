@@ -1,3 +1,5 @@
+# C:\Users\notpo\AppData\Local\Microsoft\WindowsApps\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\python.exe -m flask --app hello --debug run
+# python -m flask --app hello --debug run
 from flask import Flask, render_template
 app = Flask(__name__)
 
