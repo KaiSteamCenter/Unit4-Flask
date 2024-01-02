@@ -21,15 +21,36 @@
 
         li {
             background-color: #A31E39;
-            padding: 10px;
-            margin-bottom: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
             margin-left: auto;
             margin-right: auto;
-
-            border-radius: 50px;
-            max-width: 500px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+            max-width: 600px;
             text-align: center;
             font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        }
+
+        input[name='new_todo'] {
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            width: 200px;
+            margin-right: 20px;
+        }
+
+        input[type='submit'] {
+            background-color: #A31E39;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type='submit']:hover {
+            background-color: #761329;
         }
     </style>
 </head>
@@ -39,7 +60,12 @@
 
     <ul>
         {% for todo in todos %}
-        <li>{{ todo }}</li>
+        <li>
+            {{ todo }}
+            <form method="POST" action="/delete_todo/{{loop.index0}}">
+                <input type="Submit" value="Delete">
+            </form>
+        </li>
         {% endfor %}
     </ul>
 
