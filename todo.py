@@ -11,22 +11,48 @@ connection = pymysql.connect(
     charset="utf8mb4",
     cursorclass=pymysql.cursors.DictCursor,
 )
-cursor = connection.cursor()
 
 app = Flask(__name__)
 
+
 @app.route("/", methods=["GET", "POST"])
 def index():
-    cursor.execute("SELECT `description` FROM `todos`")
-    results = cursor.fetchall()
-    print(results)
-
     if request.method == "POST":
         new_todo = request.form.get("new_todo")
         if new_todo:
+            cursor = connection.cursor()
             cursor.execute(f"INSERT INTO `todos` (`description`) VALUES ('{new_todo}')")
+            connection.commit()
+            cursor.close()
 
-@app.route("/delete_todo/<int:todo_index>", methods=["POST"])
-def todo_delete(todo_index):
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM `todos`")
+    results = cursor.fetchall()
+    print(results)
+    cursor.close()
+    return render_template("todo.html.jinja", todos=results)
 
+
+@app.route("/delete_todo/<int:todo_id>", methods=["POST"])
+def todo_delete(todo_id):
+    cursor = connection.cursor()
+    cursor.execute(f"DELETE FROM `todos` WHERE `id` = ('{todo_id}')")
+    connection.commit()
+    cursor.close()
+    return redirect("/")
+
+
+@app.route("/complete_todo/<int:todo_id>", methods=["POST"])
+def todo_complete(todo_id):
+    cursor = connection.cursor()
+    
+    cursor.execute(f"SELECT `completion` FROM `todos` WHERE `id` = {todo_id}")
+    current_completion = cursor.fetchone()['completion']
+
+    new_completion = 1 if current_completion == 0 else 0
+
+    cursor.execute(f"UPDATE `todos` SET `completion` = {new_completion} WHERE `id` = {todo_id}")
+    connection.commit()
+    cursor.close()
+    
     return redirect("/")

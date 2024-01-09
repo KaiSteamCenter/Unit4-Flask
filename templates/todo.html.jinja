@@ -19,6 +19,13 @@
             padding: 0;
         }
 
+        .completed-li {
+            background-color: #4CBB17;
+        }
+
+        .completed-li  input[type='submit']:hover {
+             background-color: #336E11;
+        }
         li {
             background-color: #A31E39;
             padding: 15px;
@@ -41,16 +48,23 @@
         }
 
         input[type='submit'] {
-            background-color: #A31E39;
+            background-color: transparent;
             color: white;
             padding: 15px 30px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            display: block;
         }
+
 
         input[type='submit']:hover {
             background-color: #761329;
+        }
+
+
+        form {
+            display: inline-block;
         }
     </style>
 </head>
@@ -60,11 +74,18 @@
 
     <ul>
         {% for todo in todos %}
-        <li>
-            {{ todo }}
-            <form method="POST" action="/delete_todo/{{loop.index0}}">
-                <input type="Submit" value="Delete">
-            </form>
+        <li {% if todo['completion']==1 %}class="completed-li" {% endif %}>
+            {{ todo['description'] }}
+
+            <div class="button">
+                <form method="POST" action="/delete_todo/{{ todo.id }}">
+                    <input type="Submit" value="Delete">
+                </form>
+
+                <form method="POST" action="/complete_todo/{{ todo.id }}">
+                    <input type="Submit" value="Complete">
+                </form>
+            </div>
         </li>
         {% endfor %}
     </ul>
@@ -75,6 +96,5 @@
     </form>
 
 </body>
-
 
 </html>
