@@ -23,9 +23,21 @@
             background-color: #4CBB17;
         }
 
-        .completed-li  input[type='submit']:hover {
-             background-color: #336E11;
+        .completed-li {
+            background-color: #4CBB17;
+            animation: pulse 1s infinite alternate-reverse;
         }
+
+        @keyframes pulse {
+            from {
+                transform: scale(1);
+            }
+
+            to {
+                transform: scale(1.1);
+            }
+        }
+
         li {
             background-color: #A31E39;
             padding: 15px;
@@ -66,6 +78,10 @@
         form {
             display: inline-block;
         }
+
+        #submitbutton:hover {
+            background-color: #303030;
+        }
     </style>
 </head>
 
@@ -92,7 +108,7 @@
 
     <form method="post">
         <input name="new_todo">
-        <input type="submit">
+        <input type="submit" required id="submitbutton">
     </form>
 
 </body>
